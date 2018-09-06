@@ -1,0 +1,55 @@
+package SeleniumPackage;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+
+public class ScreenCapture {
+
+	public static WebDriver driver;
+	public static void main(String[] args) throws InterruptedException, IOException {
+
+		File pathToBinary = new File("C:\\Users\\sajjankumar.parjapat\\AppData\\Local\\Mozilla Firefox\\firefox.exe");		
+		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+		FirefoxProfile profile = new FirefoxProfile();
+		driver = new FirefoxDriver(ffBinary,profile);
+		driver.manage().window().maximize();
+		String url1 = "https://www.google.co.in";
+		String url2 = "https://www.facebook.com";
+
+		driver.get(url1);
+		Thread.sleep(2000);
+		
+		ScreenCapture.takesnapShot(driver, "D:\\selenuim\\test.png");
+		Thread.sleep(2000);
+		driver.get(url2);
+		Thread.sleep(2000);
+		ScreenCapture.takesnapShot(driver, "D:\\selenuim\\test2.png");
+		Thread.sleep(2000);
+	}	
+	public static void takesnapShot(WebDriver driver, String fileWithPath) throws IOException
+	{
+        //Convert web driver object to TakeScreenshot
+		TakesScreenshot scrshot = ((TakesScreenshot)driver);
+		
+        //Call getScreenshotAs method to create image file
+		File srcFile = scrshot.getScreenshotAs(OutputType.FILE);
+		
+        //Move image file to new destination
+		File destinationFile = new File(fileWithPath);
+		
+		FileUtils.copyFile(srcFile, destinationFile);
+		
+		
+		
+	}
+	
+
+}
