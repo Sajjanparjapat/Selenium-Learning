@@ -1,0 +1,46 @@
+package SeleniumPackage;
+
+import java.io.File;
+import java.io.IOException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+
+public class downloadByWget {
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+	
+		File pathToBinary = new File("C:\\Users\\sajjankumar.parjapat\\AppData\\Local\\Mozilla Firefox\\firefox.exe");		
+		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+		FirefoxProfile profile = new FirefoxProfile();
+		WebDriver driver = new FirefoxDriver(ffBinary,profile);
+		driver.manage().window().maximize();
+		String url = "http://demo.guru99.com//test//yahoo.html";
+		driver.get(url);
+		
+		Thread.sleep(5000);
+		WebElement downloadbutton = driver.findElement(By.id("messenger-download"));
+		String sourceLocation = downloadbutton.getAttribute("href");
+		System.out.println(sourceLocation);
+		String wget_command = "C:\\Wget\\wget.exe -P D:\\selenuim --no-check-certificate " + sourceLocation ;
+		
+		try
+		{
+			Process exec = Runtime.getRuntime().exec(wget_command);
+			Thread.sleep(10000);
+			int exitVal = exec.waitFor();
+			System.out.println("Exit Value : "+ exitVal);
+		}
+		catch(IOException | InterruptedException ex)
+		{
+			System.out.print(ex);
+		}
+		finally 
+		{
+			driver.close();
+		}
+	}
+}
