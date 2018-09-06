@@ -1,0 +1,57 @@
+package SeleniumPackage;
+
+import java.io.File;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+
+public class multiple_Tabs {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		File pathToBinary = new File("C:\\Users\\sajjankumar.parjapat\\AppData\\Local\\Mozilla Firefox\\firefox.exe");		
+		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+		FirefoxProfile profile = new FirefoxProfile();
+		WebDriver driver = new FirefoxDriver(ffBinary,profile);
+		driver.manage().window().maximize();
+		
+		String url1 = "https://www.google.co.in";
+		String url2 = "https://www.facebook.com";
+		String url3 = "https://in.yahoo.com/";
+		
+		// Loading Web driver with URL1
+		driver.get(url1); 
+		driver.findElement(By.id("lst-ib")).sendKeys("Hello World");
+		Thread.sleep(2000);
+		
+		//Loading URL2 in new tab
+		String newwindow = driver.getWindowHandle();
+		driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL+"t");
+		driver.switchTo().window(newwindow);
+		driver.get(url2);
+		driver.findElement(By.id("u_0_j")).sendKeys("Hi");
+		Thread.sleep(3000);
+		
+		//Loading URL3 in new tab
+		driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL+"t");
+		driver.get(url3);
+		driver.switchTo().window(newwindow);
+		driver.findElement(By.id("uh-search-box")).sendKeys("Hi Yahoo");
+		Thread.sleep(2000);
+		
+		//Closing current tab/window
+		driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL+"w");
+		Thread.sleep(2000);
+		
+		driver.switchTo().window(newwindow);
+		driver.findElement(By.id("u_0_l")).sendKeys("Facebook");
+		Thread.sleep(2000);
+		
+		driver.close();
+	}
+
+}
