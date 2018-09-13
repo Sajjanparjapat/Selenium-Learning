@@ -1,5 +1,4 @@
 package SeleniumPackage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,8 +29,7 @@ public class ExcelUtils {
 	int i,j;
 	static ExcelUtils ex;
 	WebElement AcExist;
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception	{
 		ex = new ExcelUtils();
 		//Browser Compatibility setting
 		File pathToBinary = new File("C:\\Users\\sajjankumar.parjapat\\AppData\\Local\\Mozilla Firefox\\firefox.exe");		
@@ -51,11 +49,8 @@ public class ExcelUtils {
 		fileOut.flush();
 		fileOut.close();
 	}
-	
-	public void Test() throws Exception
-	{
-		for (i=1,j=0; i<=ExcelWSheet.getLastRowNum(); i++)
-		{			
+	public void Test() throws Exception {
+		for (i=1,j=0; i<=ExcelWSheet.getLastRowNum(); i++){			
 			Username = ex.getCellData(i,j);
 			pwd = ex.getCellData(i,j+1);
 			UserType = ex.getCellData(i, j+2);
@@ -64,25 +59,18 @@ public class ExcelUtils {
 			ex.SetCellData(TC_Result,i,j+3);
 		}
 	}
-	
-	public void setExcelFile(String path, String SheetName) throws Exception
-	{
-		try
-		{
+	public void setExcelFile(String path, String SheetName) throws Exception{
+		try{
 			ExcelFile = new FileInputStream(path+SheetName);
 			ExcelWBook = new HSSFWorkbook(ExcelFile);	
 			ExcelWSheet = ExcelWBook.getSheet(ExcelWBook.getSheetName(0));	
-
 		}
 		catch (Exception e) {
 			throw (e);
 		}
 	}
-	
-	public String getCellData(int RowNum, int ColNum) throws Exception
-	{
-		try
-		{
+	public String getCellData(int RowNum, int ColNum) throws Exception{
+		try{
 			Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
 			String CellData = Cell.getStringCellValue();
 			return CellData; 
@@ -91,18 +79,14 @@ public class ExcelUtils {
 			throw (e);
 		}
 	}
-	
-	public void SetCellData (String Result, int RowNum, int ColNum) throws Exception
-	{
+	public void SetCellData (String Result, int RowNum, int ColNum) throws Exception{
 		try {
-					
 			Row = ExcelWSheet.getRow(RowNum);
 			Cell = Row.getCell(ColNum);
 			if (Cell==null)
 			{
 				Cell = Row.createCell(ColNum);
 				Cell.setCellValue(Result);
-				System.out.println(Result);
 			} else
 			{
 				Cell.setCellValue(Result);
@@ -112,38 +96,31 @@ public class ExcelUtils {
 			throw (e);
 		}
 	}
-	
-	public String Login (String Result)throws Exception
-	{
-		try
-		{
-		driver.findElement(By.id("Email")).sendKeys(Username);
-		Thread.sleep(2000);
-		driver.findElement(By.id("next")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.id("Passwd")).sendKeys(pwd);
-		Thread.sleep(2000);
-		driver.findElement(By.id("signIn")).click();
-		Thread.sleep(5000);
-		WebElement signOut = driver.findElement(By.xpath(".//*[@id='gb_71']"));
-		
-		if(signOut.isDisplayed())
-			Result = "TC_Passed";
-		else
-			Result = "TC_Failed";
-		
-		signOut.click();
-		Thread.sleep(2000);
-		if (AcExist == null)
-		{
-			AcExist = driver.findElement(By.id("account-chooser-link"));
+	public String Login (String Result)throws Exception {
+		try{
+			driver.findElement(By.id("Email")).sendKeys(Username);
+			Thread.sleep(2000);
+			driver.findElement(By.id("next")).click();
+			Thread.sleep(2000);
+			driver.findElement(By.id("Passwd")).sendKeys(pwd);
+			Thread.sleep(2000);
+			driver.findElement(By.id("signIn")).click();
+			Thread.sleep(5000);
+			WebElement signOut = driver.findElement(By.xpath(".//*[@id='gb_71']"));
+			if(signOut.isDisplayed())
+				Result = "TC_Passed";
+			else
+				Result = "TC_Failed";
+			signOut.click();
+			Thread.sleep(2000);
+			if (AcExist == null){
+				AcExist = driver.findElement(By.id("account-chooser-link"));
 			AcExist.click();
+			}
+			driver.findElement(By.id("account-chooser-add-account")).click();
+			return Result;
 		}
-		driver.findElement(By.id("account-chooser-add-account")).click();
-		return Result;
-		}
-		catch(Exception e)
-		{
+		catch(Exception e){
 			Result = "TC_Failed";
 			return Result;
 		}
