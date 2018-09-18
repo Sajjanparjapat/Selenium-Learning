@@ -14,7 +14,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class ExcelUtils {
-	
 	public final static String Path_TestData = "D:\\selenuim\\"; //Place your Excel File location here
 	public final static String File_TestData = "TestData.xls"; //Place your excel name Extension should be .xls
 	public static HSSFSheet ExcelWSheet;
@@ -49,6 +48,7 @@ public class ExcelUtils {
 		fileOut.flush();
 		fileOut.close();
 	}
+	
 	public void Test() throws Exception {
 		for (i=1,j=0; i<=ExcelWSheet.getLastRowNum(); i++){			
 			Username = ex.getCellData(i,j);
@@ -59,6 +59,7 @@ public class ExcelUtils {
 			ex.SetCellData(TC_Result,i,j+3);
 		}
 	}
+	
 	public void setExcelFile(String path, String SheetName) throws Exception{
 		try{
 			ExcelFile = new FileInputStream(path+SheetName);
@@ -69,6 +70,7 @@ public class ExcelUtils {
 			throw (e);
 		}
 	}
+	
 	public String getCellData(int RowNum, int ColNum) throws Exception{
 		try{
 			Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
@@ -83,12 +85,10 @@ public class ExcelUtils {
 		try {
 			Row = ExcelWSheet.getRow(RowNum);
 			Cell = Row.getCell(ColNum);
-			if (Cell==null)
-			{
+			if (Cell==null)	{
 				Cell = Row.createCell(ColNum);
 				Cell.setCellValue(Result);
-			} else
-			{
+			} else {
 				Cell.setCellValue(Result);
 			}
 		}
@@ -97,7 +97,7 @@ public class ExcelUtils {
 		}
 	}
 	public String Login (String Result)throws Exception {
-		try{
+		try {
 			driver.findElement(By.id("Email")).sendKeys(Username);
 			Thread.sleep(2000);
 			driver.findElement(By.id("next")).click();
@@ -115,7 +115,7 @@ public class ExcelUtils {
 			Thread.sleep(2000);
 			if (AcExist == null){
 				AcExist = driver.findElement(By.id("account-chooser-link"));
-			AcExist.click();
+				AcExist.click();
 			}
 			driver.findElement(By.id("account-chooser-add-account")).click();
 			return Result;
