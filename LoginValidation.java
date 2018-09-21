@@ -30,8 +30,8 @@ WebDriver driver;
 		driver.get(Url);
 		WebElement Username = driver.findElement(By.id("username"));
 		WebElement Password = driver.findElement(By.id("password-field"));
-		Username.sendKeys("InvalidUserName");
-		Password.sendKeys("InvalidPassword");
+		Username.sendKeys("InvalidUserName"); //Provide invalid username 
+		Password.sendKeys("InvalidPassword"); //Provide invalid password
 		WebElement LoginButton = driver.findElement(By.xpath("//*[@id='loginForm']/div[4]/input"));
 		LoginButton.click();
 		Thread.sleep(5000);
